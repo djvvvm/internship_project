@@ -1,0 +1,24 @@
+replicaCount: 1
+
+image:
+  repository: djvvm/schedule-api
+  tag: latest
+
+service:
+  port: 8080
+  type: ClusterIP
+
+postgresSecret:
+  name: postgres-secret
+
+postgresConfig:
+  name: postgres-config
+
+mongoSecret:
+  name: mongo-secret
+
+mongoConfig:
+  name: mongo-config
+
+redisConfig:
+  name: redis-config

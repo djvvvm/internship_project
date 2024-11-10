@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  repository: redis
+  tag: latest
+
+service:
+  port: 6379
+  type: ClusterIP
+
+config:
+  name: redis-config

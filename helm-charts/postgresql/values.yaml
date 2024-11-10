@@ -1,0 +1,17 @@
+replicaCount: 1
+
+image:
+  repository: postgres
+  tag: latest
+
+service:
+  port: 5432
+  targetPort: 5432
+  type: ClusterIP
+
+secrets:
+  name: postgres-secret
+
+config:
+  name: postgres-config
+
