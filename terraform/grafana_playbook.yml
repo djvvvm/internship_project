@@ -1,6 +1,0 @@
-# grafana_playbook.yml
-
-- hosts: all # (a single server)
-  become: yes
-  roles:
-    - grafana
