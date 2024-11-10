@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-import-dump-job
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox:latest
+          command: ['sh', '-c', 'until nc -z {{ .Release.Name }} 5432; do echo waiting for postgres; sleep 2; done']
+      containers:
+        - name: psql-import
+          image: postgres:latest
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: DB_PASSWORD
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: DB_USER
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.name }}
+                  key: DB_NAME
+          command: ["sh", "-c", "psql -h {{ .Release.Name }} -U $DB_USER -d $DB_NAME < /docker-entrypoint-initdb.d/dump.sql"]
+          volumeMounts:
+            - name: dump-volume
+              mountPath: /docker-entrypoint-initdb.d
+      restartPolicy: OnFailure
+      volumes:
+        - name: dump-volume
+          configMap:
+            name: postgres-dump
