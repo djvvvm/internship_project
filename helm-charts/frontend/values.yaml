@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  repository: djvvm/schedule-frontend
+  tag: latest
+
+service:
+  port: 3000
+  type: ClusterIP
+
+env:
+  REACT_APP_API_BASE_URL: "http://aad6d7b554b9844d99e775dbc797fbbc-1245851117.us-east-1.elb.amazonaws.com/api"

@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: mongo
+  tag: latest
+
+service:
+  port: 27017
+  type: ClusterIP
+
+secrets:
+  name: mongo-secret
+
+config:
+  name: mongo-config
